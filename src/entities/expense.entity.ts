@@ -1,22 +1,29 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Budget } from './budget.entity';
 
 @Entity()
 export class Expense {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column()
+  userId: number;
+
   @Column('decimal', { precision: 10, scale: 2 })
   amount: number;
 
   @Column()
-  currency: string;
+  date: Date;
 
   @Column()
   description: string;
 
   @Column()
-  userId: number;
+  currency: string;
 
-  @Column()
-  date: Date;
+  @Column('decimal', { precision: 10, scale: 2 })
+  usdAmount: number;
+
+  @ManyToOne(() => Budget, (budget) => budget.expenses)
+  budget: Budget;
 }

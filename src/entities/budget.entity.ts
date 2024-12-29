@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Expense } from './expense.entity';
 
 @Entity()
 export class Budget {
@@ -13,4 +14,7 @@ export class Budget {
 
   @Column()
   currency: string;
+
+  @OneToMany(() => Expense, (expense) => expense.budget)
+  expenses: Expense[];
 }
