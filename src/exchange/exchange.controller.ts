@@ -1,7 +1,9 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Query, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/guards/jwt.guard';
 import { ExchangeService } from './exchange.service';
 
 @Controller('exchange')
+@UseGuards(JwtAuthGuard)
 export class ExchangeController {
   constructor(private readonly exchangeService: ExchangeService) {}
 

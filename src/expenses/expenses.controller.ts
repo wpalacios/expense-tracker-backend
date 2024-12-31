@@ -1,9 +1,19 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { ExpensesService } from './expenses.service';
-import { Expense } from 'src/entities/expense.entity';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { CreateExpenseDto } from 'src/dto/create-expense.dto';
+import { Expense } from 'src/entities/expense.entity';
+import { JwtAuthGuard } from 'src/guards/jwt.guard';
+import { ExpensesService } from './expenses.service';
 
 @Controller('expenses')
+@UseGuards(JwtAuthGuard)
 export class ExpensesController {
   constructor(private readonly expensesService: ExpensesService) {}
 
@@ -13,8 +23,11 @@ export class ExpensesController {
   }
 
   @Post()
-  async create(@Body() createExpenseDto: CreateExpenseDto): Promise<Expense> {
-    const userId = 1;
+  async create(
+    @Body() createExpenseDto: CreateExpenseDto,
+    @Request() req,
+  ): Promise<Expense> {
+    const userId = req.user.sub;
     return this.expensesService.createExpense(
       userId,
       createExpenseDto.budgetId,

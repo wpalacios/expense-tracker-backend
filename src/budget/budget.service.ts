@@ -8,7 +8,7 @@ import { UpdateBudgetDto } from 'src/dto/update-budget.dto';
 export class BudgetService {
   constructor(
     @InjectRepository(Budget)
-    private budgetRepository: Repository<Budget>,
+    private readonly budgetRepository: Repository<Budget>,
   ) {}
 
   async createBudget(
